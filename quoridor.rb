@@ -23,13 +23,6 @@ class Quoridor
     
     
     self.board.display_board
-    # move(self.board, self.player_positions[:X][0], self.player_positions[:X][1], "X")
-  end
-
-  def get_player_positions(board, player_token)
-    row = board.find_index { |arr| arr.include?(player_token) }
-    index = board[row].find_index(player_token)
-    self.player_positions[player_token.to_sym] = [row, index] 
   end
 
   # Play
@@ -102,7 +95,7 @@ end
 
 
 class Player
-  attr_accessor :player_token, :fence_count, :current_position, :board
+  attr_accessor :player_token, :fence_count, :current_position, :board, :baseline
 
   # Initialize 
   def initialize(player_token, initial_position, board)
@@ -110,19 +103,21 @@ class Player
     @current_position = initial_position
     @board = board
     @fence_count = 10
-    move(initial_position[0], initial_position[1], self.player_token)
+    @baseline = initial_position[0]
+
+    # Move to starting position
+    move(initial_position)
   end
 
-  # def current_position(board, player_token)
-  #   @current_position = get_player_positions(board, player_token)
-  # end
-
-  def move(new_row, new_column, player_token)
+  def move(new_position_coord)
     # remove 'from' position
     self.board[self.current_position[0]][self.current_position[1]] = nil
     
     # place in 'to' position
-    self.board[new_row][new_column] = player_token
+    self.board[new_position_coord[0]][new_position_coord[1]] = self.player_token
+
+    # update current_position
+    self.current_position = new_position_coord
   end
 
 end
