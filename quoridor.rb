@@ -1,7 +1,6 @@
 # Overall game class
 class Quoridor
-#  attr_accessor :player_positions, :player_1, :player_2, :board
-  attr_accessor :board
+  attr_accessor :player_1, :player_2, :board
   
   # Initialize game.
   def initialize
@@ -19,19 +18,10 @@ class Quoridor
     player_2_token = player_1_token == "X" ? "O" : "X"
     puts "And player 2's token is #{player_2_token}"
 
-    @player_1 = Player.new(player_1_token)
-    @player_2 = Player.new(player_2_token)
+    @player_1 = Player.new(player_1_token, [0, grid_size - 1], self.board)
+    @player_2 = Player.new(player_2_token, [grid_size * 2 - 2, grid_size - 1], self.board)
     
-    # Initialize player positions. {token: [row, column]}
-    @player_positions = {player_1_token => [0, grid_size - 1],
-                          player_2_token => [grid_size * 2 - 2, grid_size - 1]
-                        }
     
-    # Players' starting positions on baselines
-    @player_positions.each_pair do |key, value|
-      self.board[value[0]][value[1]] = key.to_s
-    end
-
     self.board.display_board
     # move(self.board, self.player_positions[:X][0], self.player_positions[:X][1], "X")
   end
@@ -112,24 +102,27 @@ end
 
 
 class Player
-  attr_accessor :player_token, :fence_count
+  attr_accessor :player_token, :fence_count, :current_position, :board
 
   # Initialize 
-  def initialize(player_token)
+  def initialize(player_token, initial_position, board)
     @player_token = player_token
+    @current_position = initial_position
+    @board = board
     @fence_count = 10
+    move(initial_position[0], initial_position[1], self.player_token)
   end
 
-  def current_position(board, player_token)
-    @current_position = get_player_positions(board, player_token)
-  end
+  # def current_position(board, player_token)
+  #   @current_position = get_player_positions(board, player_token)
+  # end
 
-  def move(board, row, index, player_token="X")
+  def move(new_row, new_column, player_token)
     # remove 'from' position
-    board[current_position[0]][current_position[1]] = nil
+    self.board[self.current_position[0]][self.current_position[1]] = nil
     
     # place in 'to' position
-    board[row][index] = player_token
+    self.board[new_row][new_column] = player_token
   end
 
 end
