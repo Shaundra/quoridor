@@ -25,17 +25,17 @@ class Quoridor
   end
 
   # Method for a single turn
-  def turn(player)
-    puts "Where would you like to move? forward, backward, left, or right?..."
-    user_input = gets.chomp.downcase
+  # def turn(player)
+  #   puts "Where would you like to move? forward, backward, left, or right?..."
+  #   user_input = gets.chomp.downcase
 
-    current_position = (player).current_position
-    spaces_to_move = (player).set_move_direction(user_input, (player).baseline)
-    new_position = [current_position, spaces_to_move].transpose.map { |x| x.sum }
-    (player).move(new_position)
+  #   current_position = (player).current_position
+  #   spaces_to_move = (player).set_move_direction(user_input, (player).baseline)
+  #   new_position = [current_position, spaces_to_move].transpose.map { |x| x.sum }
+  #   (player).move(new_position)
 
-    board.display_board
-  end
+  #   board.display_board
+  # end
 
   # Play
   def play
@@ -140,19 +140,6 @@ class Player
 
     # Move to starting position
     move(initial_position)
-  end
-
-  def set_move_direction(direction, baseline)
-    add_to_coordinates = case 
-      when (baseline == 0 && direction == "forward") || (baseline > 0 && direction == "backward")
-        [2, 0]
-      when (baseline == 0 && direction == "backward") || (baseline > 0 && direction = "forward")
-        [-2, 0]
-      when (baseline == 0 && direction == "left") || (baseline > 0 && direction == "right")
-        [0, 2]
-      when (baseline == 0 && direction == "right") || (baseline > 0 && direction =- "left")
-        [0, -2]
-      end      
   end
 
   def move(new_position_coord)
