@@ -57,12 +57,15 @@ end
 
 
 class Board
-  attr_accessor :board
+  attr_accessor :board, :cell_ct, :grid_size
 
   # Method to initialize a board of any grid size
   def initialize(grid_size)
-    cell_ct = (grid_size * 2) - 1
+    @grid_size = grid_size
+    @cell_ct = (grid_size * 2) - 1
     @board = Array.new(cell_ct){Array.new(cell_ct)}
+
+    populate_board_guide(board)
   end
 
   # Method delegation / forwarding
@@ -70,25 +73,44 @@ class Board
     @board[index]
   end
 
+  def populate_board_guide(board = @board)
+    board.each_with_index do |x, idx|
+      if idx == 0
+        x.each_with_index { |elmt, idx| idx.even? && idx > 1 ? x[idx] = " #{idx - 2} " : x[idx] = "#{idx - 2}"}
+        x[0] = "   "
+        x[1] = " "
+      elsif idx == 1
+        x.map! { |elmt| elmt = " " }
+        x[0] = "   "
+      else
+        x[0] = " #{idx - 2} "
+        x[1] = ":"
+      end
+    end
+  end
+
   # Method to render board of any grid size
-  def display_board(board=@board)
+  def display_board(board = @board)
     render_string = ""
     board.each_with_index do |arr, idx|
       if idx.even?
         arr.each_with_index do |elmt, index|
           if elmt.nil? == false
-            render_string << " #{elmt} "
+            render_string << "#{elmt}"
           elsif elmt.nil? && index.even?
             render_string << "   "
           elsif elmt.nil? && index.odd?
             render_string << "|"
           end
         end
-        # render_string.chomp!("|")
         render_string << "\n"
       else
         arr.each_with_index do |elmt, index|
-          if index.odd?
+          if index < 2
+            render_string << " #{elmt} " 
+          elsif (index.odd? and elmt.nil? == false)
+            render_string << "#{elmt}"
+          elsif index.odd? and elmt.nil?
             render_string << "-"
           elsif elmt.nil? 
             render_string << "---" 
@@ -96,7 +118,6 @@ class Board
             render_string << "-#{elmt}-"
           end
         end
-        # render_string.chomp!("-") 
         render_string << "\n"
       end
     end
