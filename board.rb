@@ -98,17 +98,6 @@ class Board
   end
 end
 
-# [["   ", " ", " 0 ", "1", " 2 ", "3", " 4 ", "5", " 6 ", "7", " 8 "]
-# , ["   ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
-# , [" 0 ", ":", nil, nil, nil, nil, nil, nil, nil, nil, nil]
-# , [" 1 ", ":", nil, nil, nil, nil, nil, nil, nil, nil, nil]
-# , [" 2 ", ":", nil, nil, nil, nil, nil, nil, nil, nil, nil]
-# , [" 3 ", ":", nil, nil, nil, nil, nil, nil, nil, nil, nil]
-# , [" 4 ", ":", nil, nil, nil, nil, nil, nil, nil, nil, nil]
-# , [" 5 ", ":", nil, nil, nil, nil, nil, nil, nil, nil, nil]
-# , [" 6 ", ":", nil, nil, nil, nil, nil, nil, nil, nil, nil]
-# , [" 7 ", ":", nil, nil, nil, nil, nil, nil, nil, nil, nil]
-# , [" 8 ", ":", nil, nil, nil, nil, nil, nil, nil, nil, nil]] 
 
 
 

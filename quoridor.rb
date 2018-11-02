@@ -1,3 +1,6 @@
+require_relative './player'
+require_relative './board'
+
 # Overall game class
 class Quoridor
   attr_accessor :player_1, :player_2, :board
@@ -17,8 +20,8 @@ class Quoridor
     player_2_token = player_1_token == "X" ? "O" : "X"
     puts "And player 2's token is #{player_2_token}"
 
-    @player_1 = Player.new(player_1_token, [0, grid_size - 1], self.board)
-    @player_2 = Player.new(player_2_token, [grid_size * 2 - 2, grid_size - 1], self.board)
+    @player_1 = Player.new(player_1_token, [2, grid_size + 1], self.board)
+    @player_2 = Player.new(player_2_token, [grid_size * 2, grid_size + 1], self.board)
     
     
     self.board.display_board

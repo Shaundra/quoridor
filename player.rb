@@ -45,7 +45,7 @@ class Player
     self.board[self.current_position[0]][self.current_position[1]] = nil
     
     # Place in 'to' position
-    self.board[new_position_coord[0]][new_position_coord[1]] = self.player_token
+    self.board[new_position_coord[0]][new_position_coord[1]] = " #{self.player_token} "
 
     # Update current_position
     self.current_position = new_position_coord
