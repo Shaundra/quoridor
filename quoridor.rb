@@ -3,7 +3,7 @@ require_relative './board'
 
 # Overall game class
 class Quoridor
-  attr_accessor :player_1, :player_2, :board
+  attr_accessor :player_1, :player_2, :board, :current_player
   
   def initialize
     # Initialize board object.
@@ -11,9 +11,9 @@ class Quoridor
     grid_size = gets.chomp.to_i
     @board = Board.new(grid_size)
 
-    # Initialize player instances.
-    puts "How many players? Type 2 or 4."
-    player_ct = gets.chomp.to_i # use this in later refactor
+    # # Initialize player instances.
+    # puts "How many players? Type 2 or 4."
+    # player_ct = gets.chomp.to_i # use this in later refactor
     
     puts "What's player 1's token? Choose X or O"
     player_1_token = gets.chomp.upcase
@@ -23,22 +23,10 @@ class Quoridor
     @player_1 = Player.new(player_1_token, [2, grid_size + 1], self.board)
     @player_2 = Player.new(player_2_token, [grid_size * 2, grid_size + 1], self.board)
     
-    
+    @current_player = @player_1
+
     self.board.display_board
   end
-
-  # Method for a single turn
-  # def turn(player)
-  #   puts "Where would you like to move? forward, backward, left, or right?..."
-  #   user_input = gets.chomp.downcase
-
-  #   current_position = (player).current_position
-  #   spaces_to_move = (player).set_move_direction(user_input, (player).baseline)
-  #   new_position = [current_position, spaces_to_move].transpose.map { |x| x.sum }
-  #   (player).move(new_position)
-
-  #   board.display_board
-  # end
 
   # Play
   def play
@@ -48,6 +36,10 @@ class Quoridor
         # update @player_positions
       # Check if game is over, break if so.
       # Switch players. 
+  end
+
+  def switch_player
+    self.current_player == player_1 ? player_2 : player_1
   end
 
   # Check for winner.
