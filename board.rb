@@ -18,14 +18,13 @@ class Board
   def populate_board_guide(board = @board)
     board.each_with_index do |x, idx|
       if idx == 0
-        # x.each_with_index do |elmt, idx| 
-        #   if idx.even? && idx > 1 
-        #     x[idx] = " #{idx - 2} "
-        #   else 
-        #     x[idx] = "#{idx - 2}"
-        #   end
-        # end
-        x.each_with_index { |elmt, idx| idx.even? && idx > 1 ? x[idx] = " #{idx - 2} " : x[idx] = "#{idx - 2}"}
+        x.each_with_index do |elmt, idx| 
+          if idx.even? && idx > 1 
+            x[idx] = " #{idx - 2} "
+          else 
+            x[idx] = "#{idx - 2}"
+          end
+        end
         x[0] = "   "
         x[1] = " "
       elsif idx == 1
@@ -71,6 +70,16 @@ class Board
     puts render_string
   end
 
+  def valid_pawn_move?(coords)
+    if on_the_board?(coords) &&
+      not_a_boundary?(coords) &&
+      not_a_guide_cell?(coords) &&
+      position_open?(coords)
+      # !(blocked_by_fence?(coords))
+      true
+    end
+  end
+
   def new_position_to_coords(new_position)
     new_position.map { |x| x + 2 }
   end
@@ -84,14 +93,18 @@ class Board
   end
 
   def on_the_board?(coords)
-    coords.all? { |coord| coord < Board.grid_size }
+    coords.all? { |coord| coord < self.cell_ct - 1 }
   end
 
   def position_open?(coords)
     board[coords[0]][coords[1]].nil?
   end
 
-  def adjacent_to_current?(coords)
+  def adjacent_to_current?(coords, player)
+    current = player.current_position
+
+    (current[0] == coords[0] && (current[1] - coords[1]).abs == 2) ||
+    (current[1] == coords[1] && (current[0] - coords[0]).abs == 2)
   end
 
   def blocked_by_fence?
