@@ -15,7 +15,9 @@ class Player
   def turn
     if ask_turn_type == "pawn"
       move_coords = board.new_position_to_coords(get_new_position)
-      if board.valid_pawn_move?(move_coords) && adjacent_to_current?(move_coords)
+      if board.valid_pawn_move?(move_coords) && 
+        adjacent_to_current?(move_coords) &&
+        !(blocked_by_fence?(move_coords))
         move_pawn(move_coords)
       else
         puts "Invalid move. Try again!"
@@ -41,7 +43,7 @@ class Player
   end
 
   def get_new_position
-    puts "Where would you like to move? Use the board guide to choose coordinates. Ex. 2, 4"
+    puts "Where would you like to move? Use the board guide to choose row, column coordinates. Ex. 2, 4"
     user_input = gets.strip.split(",").map { |x| x.to_i }
 
     if user_input.is_a?(Array) && user_input.size == 2
@@ -59,6 +61,15 @@ class Player
     (current[1] == coords[1] && (current[0] - coords[0]).abs == 2)
   end
 
+  def blocked_by_fence?(coords)
+    current = self.current_position
+
+    if (current[0] == coords[0] && board[current[0]][(current[1] + coords[1]) / 2] == "*") ||
+       (current[1] == coords[1] && board[(current[0] + coords[0]) / 2][current[1]] == "*")
+       true
+    end
+  end
+
   def move_pawn(new_position_coord)
     # Remove 'from' position
     self.board[self.current_position[0]][self.current_position[1]] = nil
@@ -74,5 +85,4 @@ class Player
   end
 end
 
-# Add Player #turn method. Move #adjacent_to_current? to Player class
 
