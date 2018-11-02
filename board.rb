@@ -100,13 +100,6 @@ class Board
     board[coords[0]][coords[1]].nil?
   end
 
-  def adjacent_to_current?(coords, player)
-    current = player.current_position
-
-    (current[0] == coords[0] && (current[1] - coords[1]).abs == 2) ||
-    (current[1] == coords[1] && (current[0] - coords[0]).abs == 2)
-  end
-
   def blocked_by_fence?
   end
 end

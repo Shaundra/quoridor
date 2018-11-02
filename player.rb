@@ -9,7 +9,23 @@ class Player
     @baseline = initial_position[0]
 
     # Move to starting position
-    move(initial_position)
+    move_pawn(initial_position)
+  end
+
+  def turn
+    if ask_turn_type == "pawn"
+      move_coords = board.new_position_to_coords(get_new_position)
+      if board.valid_pawn_move?(move_coords) && adjacent_to_current?(move_coords)
+        move_pawn(move_coords)
+      else
+        puts "Invalid move. Try again!"
+        turn
+      end
+    elsif ask_turn_type == "fence"
+      false
+    end
+
+
   end
 
   def ask_turn_type
@@ -32,8 +48,15 @@ class Player
       user_input
     else
       puts "Invalid form. Try again."
-      ask_where_to
+      get_new_position
     end
+  end
+
+  def adjacent_to_current?(coords)
+    current = self.current_position
+
+    (current[0] == coords[0] && (current[1] - coords[1]).abs == 2) ||
+    (current[1] == coords[1] && (current[0] - coords[0]).abs == 2)
   end
 
   def move_pawn(new_position_coord)
@@ -50,3 +73,6 @@ class Player
   def place_fence(new_position_coord)
   end
 end
+
+# Add Player #turn method. Move #adjacent_to_current? to Player class
+
