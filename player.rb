@@ -12,6 +12,10 @@ class Player
     move_pawn(initial_position)
   end
 
+  def to_s
+    "Player #{self.player_token} (Fence count: #{self.fence_count})"
+  end
+
   def turn(turn_type = ask_turn_type)
     if turn_type == "pawn"
       move_coords = board.new_position_to_coords(get_new_position)
@@ -25,21 +29,30 @@ class Player
         turn(turn_type)
       end
     elsif turn_type == "fence"
-      false
+      move_coords = board.new_position_to_coords(get_new_position)
+      if board.valid_fence_move?(move_coords)
+        place_fence(move_coords)
+      else
+        puts "Invalid placement. Try again!"
+        turn(turn_type)
+      end
     end
-
-
   end
 
   def ask_turn_type
-    puts "Would you like to move your pawn or place a fence? Type pawn or fence."
-    user_input = gets.strip.downcase
+    if self.fence_count > 0
+      puts "Would you like to move your pawn or place a fence? Type pawn or fence."
+      user_input = gets.strip.downcase
 
-    if %w[pawn fence].member?(user_input) == false
-      puts "Invalid move type."
-      ask_turn_type
+      if %w[pawn fence].member?(user_input) == false
+        puts "Invalid move type."
+        ask_turn_type
+      else
+        user_input
+      end
     else
-      user_input
+      puts "You don't have any fences. Move your pawn."
+      "pawn"
     end
   end
 
@@ -83,6 +96,8 @@ class Player
   end
 
   def place_fence(new_position_coord)
+    self.board[new_position_coord[0]][new_position_coord[1]] = "*"
+    self.fence_count -= 1
   end
 end
 

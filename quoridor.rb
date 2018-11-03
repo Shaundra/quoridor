@@ -30,7 +30,6 @@ class Quoridor
 
   # Play
   def play
-
     until game_over? 
       self.board.display_board
 
@@ -39,7 +38,6 @@ class Quoridor
 
       game_over? == true ? end_game : switch_player
     end
-
   end
 
   def switch_player

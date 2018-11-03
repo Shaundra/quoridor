@@ -71,13 +71,10 @@ class Board
   end
 
   def valid_pawn_move?(coords)
-    if on_the_board?(coords) &&
-      not_a_boundary?(coords) &&
-      not_a_guide_cell?(coords) &&
-      position_open?(coords)
-      # !(blocked_by_fence?(coords))
-      true
-    end
+    on_the_board?(coords) &&
+    not_a_boundary?(coords) &&
+    not_a_guide_cell?(coords) &&
+    position_open?(coords)
   end
 
   def new_position_to_coords(new_position)
@@ -98,6 +95,13 @@ class Board
 
   def position_open?(coords)
     board[coords[0]][coords[1]].nil?
+  end
+
+  def valid_fence_move?(coords)
+    !(not_a_boundary?(coords)) && 
+    not_a_guide_cell?(coords) && 
+    position_open?(coords) && 
+    on_the_board?(coords)
   end
 
 end
