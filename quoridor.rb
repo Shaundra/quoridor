@@ -30,21 +30,30 @@ class Quoridor
 
   # Play
   def play
-    # Loop until game over.
-      # Render board.
-      # Ask player for move & check that move is valid.
-        # update @player_positions
-      # Check if game is over, break if so.
-      # Switch players. 
+
+    until game_over? 
+      self.board.display_board
+
+      puts "#{current_player}, it's your turn!"
+      self.current_player.turn
+
+      game_over? == true ? end_game : switch_player
+    end
+
   end
 
   def switch_player
-    self.current_player == player_1 ? player_2 : player_1
+    self.current_player = self.current_player == player_1 ? player_2 : player_1
   end
 
   # Check for winner.
   def game_over?
     # Player has reached opponent's baseline.
+    false
+  end
+
+  def end_game
+    puts "Congratulations, #{current_player}! You've won. Enjoy your victory."
   end
 
 end

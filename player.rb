@@ -15,9 +15,10 @@ class Player
   def turn(turn_type = ask_turn_type)
     if turn_type == "pawn"
       move_coords = board.new_position_to_coords(get_new_position)
-      if board.valid_pawn_move?(move_coords) && 
-        adjacent_to_current?(move_coords) &&
-        !(blocked_by_fence?(move_coords))
+      valid_move_adjacent_to_current_and_not_blocked = board.valid_pawn_move?(move_coords) && 
+                                                    adjacent_to_current?(move_coords) &&
+                                                    !(blocked_by_fence?(move_coords))
+      if valid_move_adjacent_to_current_and_not_blocked
         move_pawn(move_coords)
       else
         puts "Invalid move. Try again!"
