@@ -43,13 +43,16 @@ class Quoridor
   end
 
   def switch_player
-    self.current_player = self.current_player == player_1 ? player_2 : player_1
+    self.current_player = other_player
+  end
+
+  def other_player
+    self.current_player == player_1 ? player_2 : player_1
   end
 
   # Check for winner.
   def game_over?
-    # Player has reached opponent's baseline.
-    false
+    self.current_player.current_position[0] == other_player.baseline
   end
 
   def end_game

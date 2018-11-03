@@ -93,15 +93,13 @@ class Board
   end
 
   def on_the_board?(coords)
-    coords.all? { |coord| coord < self.cell_ct - 1 }
+    coords.all? { |coord| coord < self.cell_ct }
   end
 
   def position_open?(coords)
     board[coords[0]][coords[1]].nil?
   end
 
-  def blocked_by_fence?
-  end
 end
 
 
