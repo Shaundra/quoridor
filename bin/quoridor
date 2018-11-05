@@ -1,0 +1,15 @@
+#! /usr/bin/env ruby
+
+require_relative '../lib/quoridor.rb'
+
+puts "Hi! Welcome to Quoridor on the command line!"
+
+puts "Would you like to play? Y/n"
+user_input = gets.strip.downcase
+
+if %w(yes y).any? { |answer| answer == user_input }
+  game_1 = Quoridor.new
+  game_1.play
+else
+  puts "Ok. Good-bye!"
+end
